@@ -55,7 +55,7 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello_world:
+  helloWorld:
     handler: index.helloWorld
     events:
       - http:
