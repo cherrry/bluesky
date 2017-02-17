@@ -55,11 +55,11 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  helloWorld:
-    handler: index.helloWorld
+  ping:
+    handler: index.ping
     events:
       - http:
-          path: hello
+          path: ping
           method: get
 
 #    The following are a few example events you can configure
