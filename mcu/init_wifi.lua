@@ -1,4 +1,4 @@
-local config = require "wifi_config"
+local config = require("wifi_config")
 
 local init_wifi = {}
 
