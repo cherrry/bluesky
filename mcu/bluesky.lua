@@ -1,11 +1,11 @@
-local config = require("airdash_config")
+local config = require("bluesky_config")
 
 function api(endpoint)
   return config.base_url .. config.endpoints[endpoint]
 end
 
-local airdash = {}
-airdash.ping = function ()
+local bluesky = {}
+bluesky.ping = function ()
   local ip = wifi.sta.getip()
   if ip == nil then
     print("Connection not ready yet")
@@ -21,4 +21,4 @@ airdash.ping = function ()
   end)
 end
 
-return airdash
+return bluesky

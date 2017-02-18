@@ -1,5 +1,5 @@
 --[[
-Airdash API config file.
+BlueSky API config file.
 Save this file as `wifi_config.lua`
 --]]
 
