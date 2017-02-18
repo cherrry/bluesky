@@ -1,13 +1,12 @@
 #!/bin/bash
-# Deploy script to upload lua program to NodeMcu.
+# Deploy script to upload lua program to node.
 # TODO: Remove unused files
-# TODO: Use single connection to upload all files
+# TODO: Create missing file from .lua.tmpl
 
-# Upload .lua files to Mcu
-LUA_FILES=`ls -A | grep "\.lua$"`
-for lua_file in $LUA_FILES; do
-  nodemcu-uploader upload $lua_file
-done
+# Upload .lua files to node
+echo "Upload files to node"
+nodemcu-uploader upload $(find . -type f | grep "\.lua$" | sed -e "s/^\.\///")
 
 # Restart NodeMcu after deployment
-nodemcu-uploader file do deploy.lua
+echo "Finish deployment, restarting node..."
+nodemcu-uploader node restart
