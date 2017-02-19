@@ -12,6 +12,7 @@ functions:
       - http:
           path: get
           method: get
+    memorySize: 32
   put:
     handler: index.put
     events:
@@ -19,3 +20,4 @@ functions:
           path: put
           method: put
           private: true
+    memorySize: 128
