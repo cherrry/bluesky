@@ -1,6 +1,6 @@
 --[[
 BlueSky API config file.
-Save this file as `wifi_config.lua`
+Save this file as `bluesky_config.lua`
 --]]
 
 local config = {}
