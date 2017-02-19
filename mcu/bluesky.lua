@@ -23,11 +23,9 @@ bluesky.put = function ()
   local readings = pms5003.get()
   local payload = {
     device_id = config.device_id,
-    timestamp = sec
+    timestamp = sec,
+    readings = pms5003.get()
   }
-  payload["pm1.0"] = readings.pm_1_0
-  payload["pm2.5"] = readings.pm_2_5
-  payload["pm10"] = readings.pm_10_0
   local payload_json = cjson.encode(payload)
   print(payload_json)
   http.put(api("put"), headers, payload_json, function (status, resp)

@@ -11,19 +11,17 @@ function fluctuate(prev)
   end
 end
 
-local readings = {
-  pm_1_0 = 50,
-  pm_2_5 = 50,
-  pm_10_0 = 50
-}
+local readings = {}
+readings["pm1.0"] = 50
+readings["pm2.5"] = 50
+readings["pm10"] = 50
 
 local pms5003 = {}
 pms5003.get = function ()
-  local next = {
-    pm_1_0 = fluctuate(readings.pm_1_0),
-    pm_2_5 = fluctuate(readings.pm_2_5),
-    pm_10_0 = fluctuate(readings.pm_10_0)
-  }
+  local next = {}
+  next["pm1.0"] = fluctuate(readings["pm1.0"])
+  next["pm2.5"] = fluctuate(readings["pm2.5"])
+  next["pm10"] = fluctuate(readings["pm10"])
   readings = next
   return next
 end
