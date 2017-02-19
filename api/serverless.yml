@@ -5,6 +5,12 @@ provider:
   region: ap-southeast-1
   apiKeys:
     - bluesky_api_key
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:PutItem
+      Resource: arn:aws:dynamodb:*:*:table/bluesky_pmdata
 functions:
   get:
     handler: index.get
@@ -12,7 +18,7 @@ functions:
       - http:
           path: get
           method: get
-    memorySize: 32
+    memorySize: 128
   put:
     handler: index.put
     events:
@@ -21,3 +27,22 @@ functions:
           method: put
           private: true
     memorySize: 128
+resources:
+  Resources:
+    DynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: bluesky_pmdata
+        AttributeDefinitions:
+          - AttributeName: device_id
+            AttributeType: S
+          - AttributeName: timestamp
+            AttributeType: N
+        KeySchema:
+          - AttributeName: device_id
+            KeyType: HASH
+          - AttributeName: timestamp
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
