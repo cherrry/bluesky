@@ -1,6 +1,6 @@
 'use strict'
 
-const aws = require('aws-sdk')
+const AWS = require('aws-sdk')
 const dynamo = new AWS.DynamoDB.DocumentClient()
 
 const TableName = 'bluesky_pmdata'
@@ -16,9 +16,12 @@ module.exports = {
 
   put(event, context, callback) {
     const response = {
-      statusCode: 200,
-      body: JSON.stringify(event)
+      statusCode: 202,
+      body: JSON.stringify({ status: 202 })
     }
-    callback(null, response)
+    dynamo.put({
+      TableName,
+      Item: JSON.parse(event.body)
+    }, callback)
   }
 }
