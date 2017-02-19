@@ -1,15 +1,12 @@
-local config = require("wifi_config")
+local config = require("config")
+
+local wifi_config = config.wifi
 
 local init_wifi = {}
 
 init_wifi.init = function ()
-  if config.enable_ap then
-    wifi.setmode(wifi.STATIONAP)
-    wifi.ap.config(config.ap)
-  else
-    wifi.setmode(wifi.STATION)
-  end
-  wifi.sta.config(config.sta)
+  wifi.setmode(wifi.STATION)
+  wifi.sta.config(wifi_config)
 end
 
 return init_wifi

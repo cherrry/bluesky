@@ -1,11 +1,13 @@
 local bluesky = require("bluesky")
-local config = require("bluesky_config")
+local config = require("config")
+
+local bluesky_config = config.bluesky
 
 local init_bluesky = {}
 
 init_bluesky.init = function ()
   local timer = tmr.create()
-  timer:register(config.push_frequency, tmr.ALARM_AUTO, function ()
+  timer:register(bluesky_config.push_frequency, tmr.ALARM_AUTO, function ()
     if wifi.sta.getip() then
       bluesky:put()
     end
