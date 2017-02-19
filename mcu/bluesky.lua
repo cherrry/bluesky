@@ -1,4 +1,5 @@
 local config = require("bluesky_config")
+local pms5003 = require("pms5003")
 
 function api(endpoint)
   return config.base_url .. config.endpoints[endpoint] .. "?_" -- Avoid caching
@@ -12,7 +13,17 @@ bluesky.put = function ()
     print("Connection not ready yet")
     return
   end
-  http.put(api("put"), headers, "", function (status, resp)
+  sec, usec = rtctime.get()
+  if sec == 0 then
+    print("RTC time not ready yet")
+    return
+  end
+  local payload = cjson.encode({
+    timestamp = sec,
+    readings = pms5003.get()
+  })
+  print(payload)
+  http.put(api("put"), headers, payload, function (status, resp)
     if status < 0 then
       print("HTTP request failed")
     else
