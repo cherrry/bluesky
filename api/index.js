@@ -1,10 +1,18 @@
 'use strict'
 
 module.exports = {
-  ping(event, context, callback) {
+  get(event, context, callback) {
     const response = {
       statusCode: 200,
-      body: "pong"
+      body: JSON.stringify({ status: 200 })
+    }
+    callback(null, response)
+  },
+
+  put(event, context, callback) {
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify({ status: 200 })
     }
     callback(null, response)
   }

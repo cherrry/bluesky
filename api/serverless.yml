@@ -3,10 +3,19 @@ provider:
   name: aws
   runtime: nodejs4.3
   region: ap-southeast-1
+  apiKeys:
+    - bluesky_api_key
 functions:
-  ping:
-    handler: index.ping
+  get:
+    handler: index.get
     events:
       - http:
-          path: ping
+          path: get
           method: get
+  put:
+    handler: index.put
+    events:
+      - http:
+          path: put
+          method: put
+          private: true
