@@ -16,8 +16,14 @@ functions:
     handler: index.get
     events:
       - http:
-          path: get
+          path: get/{device_id}/interval/{from}/{to}
           method: get
+          request:
+            parameters:
+              paths:
+                device_id: true
+                from: true
+                to: true
     memorySize: 128
   put:
     handler: index.put

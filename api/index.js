@@ -7,7 +7,7 @@ const TableName = 'bluesky_pmdata'
 
 module.exports = {
   get(event, context, callback) {
-    const params = event.queryStringParameters
+    const params = event.pathParameters
 
     const hasDeviceId = params.hasOwnProperty('device_id')
     const hasTimeRange = params.hasOwnProperty('from') && params.hasOwnProperty('to')
