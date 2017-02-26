@@ -2,6 +2,7 @@ import './App.css'
 
 import React from 'react'
 import { Line as LineChart } from 'react-chartjs-2'
+import { connect } from 'react-redux'
 import { Container, Menu, Segment } from 'semantic-ui-react'
 
 const chartProps = {
@@ -62,4 +63,4 @@ function App() {
   )
 }
 
-export default App
+export default connect()(App)
