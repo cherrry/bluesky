@@ -20,7 +20,6 @@ bluesky.put = function ()
     print("RTC time not ready yet")
     return
   end
-  local readings = pms5003.get()
   local payload = {
     device_id = config.device_id,
     timestamp = sec,
