@@ -1,8 +1,7 @@
 #include <Arduino.h>
 #include <SoftwareSerial.h>
 
-#define PMS_RX D7
-#define PMS_TX D8
+#include "./Config.h"
 
 struct pms_data {
   int pm_1_0;
