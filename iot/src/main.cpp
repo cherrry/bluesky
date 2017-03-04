@@ -1,5 +1,7 @@
 #include <Arduino.h>
+#include <ESP8266WiFi.h>
 #include <SoftwareSerial.h>
+#include <WiFiConnector.h>
 
 #include "./Config.h"
 
@@ -60,10 +62,24 @@ private:
 };
 
 SoftwareSerial pms5003(PMS_RX, PMS_TX);
+WiFiConnector wifi(WIFI_SSID, WIFI_PASSPHRASE);
 
 void setup() {
   Serial.begin(115200);
   pms5003.begin(9600);
+
+  wifi.disconnect(true);
+  wifi.init();
+  wifi.on_connected([&](const void* message) {
+    Serial.printf("Connected to %s (%s).\n", wifi.get("ssid").c_str(), WiFi.localIP().toString().c_str());
+  });
+
+  wifi.on_connecting([&](const void* message) {
+    Serial.printf("Connecting to %s...\n", wifi.get("ssid").c_str());
+    delay(500);
+  });
+
+  wifi.connect();
 }
 
 bool ReadNextEpoch(PmsData* data) {
@@ -92,6 +108,8 @@ bool ReadNextEpoch(PmsData* data) {
 }
 
 void loop() {
+  wifi.loop();
+
   PmsData data;
   if (ReadNextEpoch(&data)) {
     Serial.printf("PM 1.0: %d\n", data.Pm_1_0());
