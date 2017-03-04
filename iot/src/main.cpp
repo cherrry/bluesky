@@ -116,6 +116,7 @@ bool ReadNextEpoch(PmsData* data) {
   return has_value;
 }
 
+bool ntp_updated = false;
 void loop() {
   wifi.loop();
 
@@ -125,7 +126,8 @@ void loop() {
     return;
   }
 
-  if (!ntp.update()) {
+  ntp_updated = ntp_updated | ntp.update();
+  if (!ntp_updated) {
     Serial.println("NTP not synced");
     delay(5 * 1000);
     return;
