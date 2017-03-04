@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
+#include <RestClient.h>
 #include <SoftwareSerial.h>
 #include <WiFiConnector.h>
 
@@ -61,6 +62,7 @@ private:
   pms_data data_;
 };
 
+RestClient api(API_HOST);
 SoftwareSerial pms5003(PMS_RX, PMS_TX);
 WiFiConnector wifi(WIFI_SSID, WIFI_PASSPHRASE);
 
@@ -109,6 +111,12 @@ bool ReadNextEpoch(PmsData* data) {
 
 void loop() {
   wifi.loop();
+
+  if (wifi.connected()) {
+    String response;
+    int status_code = api.get("/ping", &response);
+    Serial.printf("Status code: %d\n", status_code);
+  }
 
   PmsData data;
   if (ReadNextEpoch(&data)) {
