@@ -12,6 +12,12 @@ provider:
         - dynamodb:PutItem
       Resource: arn:aws:dynamodb:*:*:table/bluesky_pmdata
 functions:
+  ping:
+    handler: index.ping
+    events:
+      - http:
+          path: ping
+          method: get
   get:
     handler: index.get
     events:

@@ -6,6 +6,16 @@ const dynamo = new AWS.DynamoDB.DocumentClient()
 const TableName = 'bluesky_pmdata'
 
 module.exports = {
+  ping(event, context, callback) {
+    callback(null, {
+      statusCode: 200,
+      body: JSON.stringify({
+        status: 200,
+        message: 'pong'
+      })
+    })
+  },
+
   get(event, context, callback) {
     const params = event.pathParameters
 
