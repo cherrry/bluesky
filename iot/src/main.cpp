@@ -1,8 +1,11 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
+#include <NTPClient.h>
 #include <RestClient.h>
 #include <SoftwareSerial.h>
+#include <SPI.h>
 #include <WiFiConnector.h>
+#include <WiFiUdp.h>
 
 #include "./Config.h"
 
@@ -62,6 +65,8 @@ private:
   pms_data data_;
 };
 
+WiFiUDP ntp_udp;
+NTPClient ntp(ntp_udp, NTP_SERVER, 0, NTP_INTERVAL);
 RestClient api(API_HOST);
 SoftwareSerial pms5003(PMS_RX, PMS_TX);
 WiFiConnector wifi(WIFI_SSID, WIFI_PASSPHRASE);
@@ -82,6 +87,7 @@ void setup() {
   });
 
   wifi.connect();
+  ntp.begin();
 }
 
 bool ReadNextEpoch(PmsData* data) {
@@ -111,7 +117,9 @@ bool ReadNextEpoch(PmsData* data) {
 
 void loop() {
   wifi.loop();
+  ntp.update();
 
+  Serial.printf("Current Time: %d\n", ntp.getEpochTime());
   if (wifi.connected()) {
     String response;
     int status_code = api.get("/ping", &response);
