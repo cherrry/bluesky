@@ -13,5 +13,6 @@ char* API_KEY = "";
 
 char* NTP_SERVER = "pool.ntp.org";
 int NTP_INTERVAL = 60;
+int CURRENT_YEAR = 2017;
 
 #endif  // __SRC_CONFIG_H__

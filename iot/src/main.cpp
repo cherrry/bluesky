@@ -117,13 +117,17 @@ bool ReadNextEpoch(PmsData* data) {
 
 void loop() {
   wifi.loop();
-  ntp.update();
 
-  Serial.printf("Current Time: %d\n", ntp.getEpochTime());
-  if (wifi.connected()) {
-    String response;
-    int status_code = api.get("/ping", &response);
-    Serial.printf("Status code: %d\n", status_code);
+  if (!wifi.connected()) {
+    Serial.println("Wifi not connected.");
+    delay(5 * 1000);
+    return;
+  }
+
+  if (!ntp.update()) {
+    Serial.println("NTP not synced");
+    delay(5 * 1000);
+    return;
   }
 
   PmsData data;
