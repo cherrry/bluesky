@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
 #include <NTPClient.h>
 #include <RestClient.h>
@@ -132,11 +133,27 @@ void loop() {
 
   PmsData data;
   if (ReadNextEpoch(&data)) {
-    Serial.printf("PM 1.0: %d\n", data.Pm_1_0());
-    Serial.printf("PM 2.5: %d\n", data.Pm_2_5());
-    Serial.printf("PM 10: %d\n\n", data.Pm_10_0());
-  } else {
-    Serial.println("No Data YET.");
+    StaticJsonBuffer<256> buffer;
+    JsonObject& epoch = buffer.createObject();
+    epoch["device_id"] = DEVICE_ID;
+    epoch["timestamp"] = ntp.getEpochTime();
+    JsonObject& readings = epoch.createNestedObject("readings");
+    readings["pm1.0"] = data.Pm_1_0();
+    readings["pm2.5"] = data.Pm_2_5();
+    readings["pm10"] = data.Pm_10_0();
+
+    char request_body[256];
+    epoch.printTo(request_body, 256);
+    Serial.printf("Put Request: %s\n", request_body);
+
+    char header[256];
+    sprintf(header, "X-Api-Key: %s", API_KEY);
+    api.setHeader(header);
+
+    int status_code = api.put("/put", request_body);
+    Serial.printf("Status code: %d\n", status_code);
+
+    Serial.println();
   }
-  delay(1 * 1000);
+  delay(20 * 1000);
 }
