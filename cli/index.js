@@ -30,7 +30,7 @@ function loop() {
       return response.json()
     })
     .then(function (data) {
-      timestamps = data.map(function (epoch) {
+      let timestamps = data.map(function (epoch) {
         return moment(epoch.timestamp * 1000).format('HH:ss')
       })
       let renderData = [
