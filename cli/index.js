@@ -30,8 +30,13 @@ function loop() {
       return response.json()
     })
     .then(function (data) {
+      return data.sort(function (e1, e2) {
+        return e1.timestamp - e2.timestamp
+      })
+    })
+    .then(function (data) {
       let timestamps = data.map(function (epoch) {
-        return moment(epoch.timestamp * 1000).format('HH:ss')
+        return moment(epoch.timestamp * 1000).format('HH:mm')
       })
       let renderData = [
         { title: 'PM 1.0', x: timestamps, y: [], style: { line: 'red' } },
